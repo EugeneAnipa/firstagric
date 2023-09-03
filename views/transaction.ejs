@@ -1,0 +1,92 @@
+<%- include('header'); -%>
+<div class="container text-center">
+
+<table style="width:100%" class="table">
+
+
+<thead>
+<tr>
+    <th scope="col" >Account Name</th>
+    <th scope="col">Email</th>
+    
+   
+    <th scope="col">Address</th>
+    
+    
+    <th scope="col">Phone</th>
+    <th scope="col">Date of birth</th>
+    <th scope="col">Account Number</th>
+    </tr>
+  </thead>
+  <div>To print function</div>
+  <tbody>
+  <tr>
+  
+    <td> <%= firstname %> <%= lastname %> ,<%= middlename %></td>
+    
+  
+    <td><%= email %> </td>
+    
+  
+    <td><%= address %> <%= state %> <%= zipcode %> <%= country %></td>
+    
+  
+    
+   
+    <td><%= phone %>
+</td>
+    
+  
+    <td><%= dob %></td>
+    
+ 
+    <td><%= accountnumber %> </td>
+    
+  </tr>
+
+
+
+</tbody>
+
+</table>
+
+
+
+
+
+
+</div>
+<div class="container">
+<table class="table table-striped">
+  <thead>
+  <h2 class="container table table-striped text-center">Transaction History</h2>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Type</th>
+      <th scope="col">From/To</th>
+      <th scope="col">Description</th>
+      <th scope="col">Balance</th>
+      <th scope="col">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <% for(let i=0; i < tid.length;i++){                        %>
+     <tr>
+      <th scope="row"><%= tid[i] %></th>
+      <td><%= tamount[i] %></td>
+      <td><%= ttype[i] %></td>
+      <td><%= tfrom_to[i] %></td>
+      <td><%= tdescription[i] %></td>
+      <td><%= tbalance[i] %></td>
+      <td><%= tdate[i] %></td>
+    </tr>
+      <% } %>
+
+
+  </tbody>
+</table></div>
+<div><a href="/logout">Logout</a></div>
+
+<%- include('footer'); -%>

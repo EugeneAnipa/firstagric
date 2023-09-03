@@ -1,0 +1,91 @@
+<%- include('header'); -%>
+
+
+<div class="formSignUp text-center">
+<form method="post" action="/signup" id="pwreset">
+
+<!--<input type="text">--><br>
+<label><h3>Enter Details to Sign Up</h3></label><br>
+
+
+<input type="text" name="firstName"><br>
+<label>First Name</label><br>
+
+<input type="text" name="middleName"><br>
+<label>Middle Name</label><br>
+
+<input type="text" name="lastName"><br>
+<label>Last Name</label><br>
+
+<input type="email" name="email"><br>
+<label>Email</label><br>
+
+
+<input type="text" name="country"><br>
+<label>Country</label><br>
+
+
+
+<input type="text" name="state"><br>
+<label>State/Province/Region</label><br>
+
+<input type="text" name="address"><br>
+<label>Address</label><br>
+
+
+<input type="text" name="zipCode"><br>
+<label>zipcode</label><br>
+
+
+<input type="tel" name="phoneNumber"><br>
+<label>Mobile Number</label><br>
+
+
+<input type="date" name="dob"><br>
+<label>Date of birth</label><br>
+
+
+
+<input type="password" id="new_password" name="new_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required><br>
+<label for="new_password">Password</label><br>
+
+
+<input type="password" id="verifyPassword" name="verifyPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required><br>
+<label>Password</label><br>
+
+
+
+
+<button>Submit</button>
+</form>
+
+
+
+
+
+
+
+</div>
+<script>
+
+function verifyPassword() {
+  let pass1 = document.getElementById("new_password").value;
+  let pass2 = document.getElementById("verifyPassword").value;
+  let match = true;
+  if (pass1 != pass2) {
+    //alert("Passwords Do not match");
+    document.getElementById("new_password").style.borderColor = "#ff0000";
+    document.getElementById("verifyPassword").style.borderColor = "#ff0000";
+    match = false;
+  }
+  else {
+    alert("Passwords match.");
+  }
+  return match;
+}
+
+document.getElementById('pwreset').onsubmit = verifyPassword;
+
+</script>
+
+<%- include('footer'); -%>
