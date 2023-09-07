@@ -1,0 +1,44 @@
+<%- include('header'); -%>
+
+
+<div class="container">
+<table class="table table-striped">
+  <thead>
+  <h2 class="container table table-striped text-center">Transaction History</h2>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Type</th>
+      <th scope="col">From/To</th>
+      <th scope="col">Description</th>
+      <th scope="col">Balance</th>
+      <th scope="col">Date</th>
+    </tr>
+  </thead>
+  
+<tbody>
+    
+    <% if(item.length >0){       item.forEach(function(result){                 %> 
+    
+     <tr>
+      <th scope="row"><%= result.id %></th>
+      <td><%= result.amount %></td>
+      <td><%= result.type %></td>
+      <td><%= result.from_to %></td>
+      <td><%= result.description %></td>
+      <td><%= result.balance %></td>
+      <td><%= result.tdate %></td>
+    </tr>
+      
+          <% 
+          }) ;
+          } %>
+
+  </tbody>
+  
+</table></div>  
+<div>
+
+
+
+<%- include('footer'); -%>

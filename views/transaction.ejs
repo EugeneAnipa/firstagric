@@ -20,7 +20,7 @@
   </thead>
   <div>To print function</div>
   <tbody>
-  <tr>
+<tr>
   
     <td> <%= firstname %> <%= lastname %> ,<%= middlename %></td>
     
@@ -70,23 +70,12 @@
       <th scope="col">Date</th>
     </tr>
   </thead>
-  <tbody>
-    
-    <% for(let i=0; i < tid.length;i++){                        %>
-     <tr>
-      <th scope="row"><%= tid[i] %></th>
-      <td><%= tamount[i] %></td>
-      <td><%= ttype[i] %></td>
-      <td><%= tfrom_to[i] %></td>
-      <td><%= tdescription[i] %></td>
-      <td><%= tbalance[i] %></td>
-      <td><%= tdate[i] %></td>
-    </tr>
-      <% } %>
+  
+  <div class="text-center">
+    <p>Want transaction Summary? <a href="/transactionsummary">Click here</a></p>
 
-
-  </tbody>
-</table></div>
+   </div>
+</table></div>  
 <div><a href="/logout">Logout</a></div>
 
 <%- include('footer'); -%>

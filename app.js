@@ -8,7 +8,12 @@ const bodyParser = require("body-parser");
 const mysql = require("mysql");
 
 const app = express();
+const axios = require("axios");
 const session = require("express-session");
+
+var keys = require("object-keys");
+
+var assert = require("assert");
 
 var multer = require("multer");
 
@@ -148,7 +153,8 @@ app.post("/login", function (request, respond) {
     if (result.length <= 0) {
       respond.redirect("/login");
     } else {
-      respond.render("transaction");
+      //respond.render("transaction");
+      respond.redirect("/transaction");
       // passport.authenticate("local");
       // request.session.user = Email;
       // respond.redirect("/transaction");
@@ -202,18 +208,19 @@ app.get(
         "SELECT firstname,middlename,lastname,email,country,state,address,zipcode,phone,dob,accountnumber FROM Customers ORDER BY id DESC LIMIT 1";
 
       var sql2 =
-        "SELECT customers.firstname,customers.middlename,customers.lastname,customers.email,customers.password,customers.country,customers.state,customers.address,customers.zipcode,customers.phone,customers.dob,customers.accountnumber,transactions.id,transactions.amount,transactions.type,transactions.from_to,transactions.description,transactions.balance,transactions.date FROM customers INNER JOIN transactions ON customers.accountnumber=transactions.accountnumber WHERE email = ? AND password = ? ";
+        "SELECT customers.firstname,customers.middlename,customers.lastname,customers.email,customers.password,customers.country,customers.state,customers.address,customers.zipcode,customers.phone,customers.dob,customers.accountnumber,transactions.id,transactions.amount,transactions.type,transactions.from_to,transactions.description,transactions.balance,transactions.tdate FROM customers INNER JOIN transactions ON customers.accountnumber=transactions.accountnumber WHERE email = ? AND password = ? ";
 
-      firstagricdb.query(sql2, [Email, Password], function (err, result) {
+      firstagricdb.query(result1, [Email, Password], function (err, result) {
         if (err) throw err;
-        console.log(result);
+        //console.log(result);
 
         Object.keys(result).forEach(function (key) {
           var row = result[key];
-          console.log(row.title);
+          //console.log(row.firstname, row.type, row.amount, row.id);
 
           respond.render("transaction", {
             firstname: row.firstname,
+
             middlename: row.middlename,
             lastname: row.lastname,
             email: row.email,
@@ -224,14 +231,14 @@ app.get(
             phone: row.phone,
             dob: row.dob,
             accountnumber: row.accountnumber,
-
+            /*
             tid: row.id,
             tamount: row.amount,
             ttype: row.type,
-            tfrom_to: row.fron_to,
+            tfrom_to: row.from_to,
             tdescription: row.description,
             tbalance: row.balance,
-            tdate: row.tdate,
+            tdate: row.tdate,            */
           });
         });
       });
@@ -337,6 +344,26 @@ app.post("/signup", function (request, respond) {
   //request.flash("thank you");
 });
 /* back  */
+
+app.get("/transactionsummary", function (resquest, respond, next) {
+  let Email = Ee[0];
+  let Password = Pp[0];
+
+  var sql2 =
+    "SELECT customers.firstname,customers.middlename,customers.lastname,customers.email,customers.password,customers.country,customers.state,customers.address,customers.zipcode,customers.phone,customers.dob,customers.accountnumber,transactions.id,transactions.amount,transactions.type,transactions.from_to,transactions.description,transactions.balance,transactions.tdate FROM customers INNER JOIN transactions ON customers.accountnumber=transactions.accountnumber WHERE email = ? AND password = ? ";
+
+  var sql3 =
+    "SELECT customers.email,customers.password,transactions.id AS id ,transactions.amount AS amount,transactions.type AS type,transactions.from_to AS from_to,transactions.description AS description,transactions.balance AS balance,transactions.tdate AS tdate FROM customers INNER JOIN transactions ON customers.accountnumber=transactions.accountnumber WHERE email = ? AND password = ? ";
+
+  firstagricdb.query(sql3, [Email, Password], function (err, result) {
+    if (err) {
+      throw err;
+    } else {
+      respond.render("transactionsummary", { item: result });
+    }
+  });
+});
+
 app.get("/logout", function (request, respond) {
   //request.session.destroy(function (err) {
   //respond.redirect("/login");
@@ -348,7 +375,7 @@ app.get("/logout", function (request, respond) {
   });
   respond.redirect("/login");
 });
-/*      */
+
 app.post("/logout", function (request, respond) {
   //respond.render("logout");
   /*
