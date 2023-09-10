@@ -1,4 +1,5 @@
-<%- include('header'); -%>
+<body>
+<main>
 
 
 <div class="container">
@@ -16,9 +17,10 @@
     </tr>
   </thead>
   
+  
 <tbody>
     
-    <% if(item.length >0){       item.forEach(function(result){                 %> 
+    <% if(item.length > 0){       item.forEach(function(result){                 %> 
     
      <tr>
       <th scope="row"><%= result.id %></th>
@@ -26,19 +28,22 @@
       <td><%= result.type %></td>
       <td><%= result.from_to %></td>
       <td><%= result.description %></td>
-      <td><%= result.balance %></td>
+      <td ><%= result.balance %></td>
       <td><%= result.tdate %></td>
     </tr>
       
-          <% 
+       <% 
           }) ;
-          } %>
+          } %>    
+          
 
   </tbody>
-  
+ 
 </table></div>  
-<div>
 
 
+   
+ </main>
+ 
 
-<%- include('footer'); -%>
+</body>

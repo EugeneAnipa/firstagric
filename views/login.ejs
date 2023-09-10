@@ -12,6 +12,9 @@
 <div class="text-center form-outline mb-4"><br>
 <!--  <input type="email"  /> --><br>
  <label><h3>Enter Details to Sign In</h3></label>
+ <%if(locals.logout){ %>
+ <span class="alter alert-success text-center"><%= logout %></span>
+ <% } %>
 
 </div>
 
