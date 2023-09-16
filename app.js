@@ -51,11 +51,11 @@ var firstagricdb = mysql.createConnection({
 
 /*
 var firstagricdb = mysql.createConnection({
-  host: "server168.web-hosting.com",
-  user: "llcafwcs_123",
-  password: "llcafwcs_123",
-  database: "llcafwcs_ firstagricdb",
-  port: 3306,
+  host: "mysql-sssss-23635.nodechef.com",
+  user: "ncuser_7052",
+  password: "Ar6IWt3nGp5n2oXAMTN50qfSSVgzOV",
+  database: "sssss",
+  port: 2394,
 });
 */
 
