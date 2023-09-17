@@ -17,15 +17,11 @@ var keys = require("object-keys");
 
 var assert = require("assert");
 
-var multer = require("multer");
-
-var upload = multer();
-
 var cookieParser = require("cookie-parser");
 app.set("view engine", "ejs");
 
 app.use(bodyParser.json());
-app.use(upload.array());
+
 app.use(cookieParser());
 
 app.use(express.static("public"));
@@ -41,6 +37,7 @@ app.use(
 );
 
 var md5 = require("md5");
+
 /*
 var firstagricdb = mysql.createConnection({
   host: "localhost",
@@ -82,16 +79,17 @@ app.post("/login", function (request, respond) {
   var sess = request.session;
 
   var sql1 =
-    "SELECT * FROM Customers,transactions WHERE email = ? AND password = ? ";
+    "SELECT * FROM customers,transactions WHERE email = ? AND password = ? ";
 
   firstagricdb.query(sql1, [Email, Password], function (err, result) {
-    firstagricdb.release();
+    if (err) throw err;
+
     if (result.length <= 0) {
       // respond.end("Invalid details");
 
       respond.redirect("/login");
     } else {
-      request.session.Email = Email;
+      sess.Email = Email;
       respond.redirect("/transaction");
     }
   });
@@ -104,13 +102,12 @@ app.get("/transaction", function (request, respond) {
   firstagricdb.connect(function (err) {
     var sql = "SELECT * FROM Customers";
     var result1 =
-      "SELECT firstname,middlename,lastname,email,country,state,address,zipcode,phone,dob,accountnumber FROM Customers ORDER BY id DESC LIMIT 1";
+      "SELECT firstname,middlename,lastname,email,country,state,address,zipcode,phone,dob,accountnumber FROM customers ORDER BY id DESC LIMIT 1";
 
     var sql2 =
       "SELECT customers.firstname,customers.middlename,customers.lastname,customers.email,customers.password,customers.country,customers.state,customers.address,customers.zipcode,customers.phone,customers.dob,customers.accountnumber,transactions.id,transactions.amount,transactions.type,transactions.from_to,transactions.description,transactions.balance,transactions.tdate FROM customers INNER JOIN transactions ON customers.accountnumber=transactions.accountnumber WHERE email = ? AND password = ? ";
 
     firstagricdb.query(result1, [Email, Password], function (err, result) {
-      firstagricdb.release();
       if (err) throw err;
       //console.log(result);
 
@@ -208,7 +205,6 @@ app.post("/signup", function (request, respond) {
         accountNumber,
       ],
       function (err, result) {
-        firstagricdb.release();
         //if (err) throw err;
         console.log("1 record inserted");
       }
@@ -232,7 +228,6 @@ app.get("/transactionsummary", function (resquest, respond, next) {
     "SELECT customers.email,customers.password,transactions.id AS id ,transactions.amount AS amount,transactions.type AS type,transactions.from_to AS from_to,transactions.description AS description,transactions.balance AS balance,transactions.tdate AS tdate FROM customers INNER JOIN transactions ON customers.accountnumber=transactions.accountnumber WHERE email = ? AND password = ? ";
 
   firstagricdb.query(sql3, [Email, Password], function (err, result) {
-    firstagricdb.release();
     if (err) {
       throw err;
     } else {
@@ -248,7 +243,6 @@ app.get("/total", function (request, respond) {
       "SELECT sum(transactions.balance) AS Totalbalance FROM customers INNER JOIN transactions ON customers.accountnumber=transactions.accountnumber WHERE customers.email = ? ";
 
     firstagricdb.query(sql, [Email], function (err, result) {
-      firstagricdb.release();
       Object.keys(result).forEach(function (key) {
         var row = result[key];
         console.log(row.Totalbalance);
