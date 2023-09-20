@@ -28,6 +28,9 @@ app.use(express.static("public"));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.set("tust proxy", 1);
+
+/*
 app.use(
   session({
     secret: "keyboard cat",
@@ -35,6 +38,8 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+*/
 
 var md5 = require("md5");
 
@@ -76,7 +81,7 @@ app.post("/login", function (request, respond) {
   Ee.push(Email);
   Pp.push(Password);
 
-  var sess = request.session;
+  //var sess = request.session;
 
   var sql1 =
     "SELECT * FROM customers,transactions WHERE email = ? AND password = ? ";
@@ -89,7 +94,7 @@ app.post("/login", function (request, respond) {
 
       respond.redirect("/login");
     } else {
-      sess.Email = Email;
+      // sess.Email = Email;
       respond.redirect("/transaction");
     }
   });
@@ -109,32 +114,33 @@ app.get("/transaction", function (request, respond) {
 
     firstagricdb.query(result1, [Email, Password], function (err, result) {
       if (err) throw err;
-      //console.log(result);
+      console.log(result);
 
-      if (request.session.Email) {
-        Object.keys(result).forEach(function (key) {
-          var row = result[key];
-          //console.log(row.firstname, row.type, row.amount, row.id);
+      //if (request.session.Email) {
+      Object.keys(result).forEach(function (key) {
+        var row = result[key];
+        //console.log(row.firstname, row.type, row.amount, row.id);
 
-          respond.render("transaction", {
-            user: request.Email,
-            firstname: row.firstname,
+        respond.render("transaction", {
+          //user: request.Email,
+          firstname: row.firstname,
 
-            middlename: row.middlename,
-            lastname: row.lastname,
-            email: row.email,
-            country: row.country,
-            state: row.state,
-            address: row.address,
-            zipcode: row.zipcode,
-            phone: row.phone,
-            dob: row.dob,
-            accountnumber: row.accountnumber,
-          });
+          middlename: row.middlename,
+          lastname: row.lastname,
+          email: row.email,
+          country: row.country,
+          state: row.state,
+          address: row.address,
+          zipcode: row.zipcode,
+          phone: row.phone,
+          dob: row.dob,
+          accountnumber: row.accountnumber,
         });
-      } else {
-        respond.render("login");
-      }
+      });
+      // }
+      //  else {
+      respond.render("login");
+      // }
 
       /*
       Object.keys(result).forEach(function (key) {
@@ -253,9 +259,9 @@ app.get("/total", function (request, respond) {
   });
 });
 app.get("/logout", function (request, respond) {
-  request.session.destroy(function () {
-    console.log("user logged out");
-  });
+  //request.session.destroy(function () {
+  console.log("user logged out");
+  //});
   respond.redirect("/login");
 });
 
