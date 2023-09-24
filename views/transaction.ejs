@@ -1,6 +1,7 @@
 <%- include('header'); -%>
 <div class="container text-center">
-<h4><%= locals.user ? user:"User" %></h4>
+<!--<h4><%= locals.user ? user:"User" %></h4>-->
+
 <table style="width:100%" class="table">
 
 
@@ -18,7 +19,24 @@
     <th scope="col">Account Number</th>
     </tr>
   </thead>
-  <div>To print function</div>
+  <div>
+  <button onclick="window.print()" class="btn" style="color:#fd7e14">Print</button>
+  </div>
+
+
+<div class="sidenav">
+  <a href="#withdraw">Withdraw</a>
+  <a href="#Transfer">Transfer</a>
+  <a href="#Others">Others</a>
+  
+  <a href="#Profile">Profile</a>
+  <a href="#Settings">Settings</a>
+</div>
+
+
+
+
+
   <tbody>
 <tr>
   
@@ -68,17 +86,18 @@
 
     <div class="text-center">
     <br>
-    <iframe name="iframe1" src="/transactionsummary" class="container"></iframe>
+    <iframe id="iframe1" name="iframe1" src="/transactionsummary" class="container" style="background-color: Snow;"></iframe>
     
 
     </div>
 
    <div class="text-center">
     <br>
-    <iframe name="iframe2" src="/total" class="text-center" style="width:20vh height:5vh"></iframe>
+    <iframe id="iframe2" name="iframe2" src="/total" class="text-center" style="background-color: Snow;" scrolling="no"></iframe>
     
 
     </div>
+
 
 
   </tbody>
