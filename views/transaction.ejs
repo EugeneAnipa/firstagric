@@ -1,11 +1,14 @@
 <%- include('header'); -%>
-<div class="container text-center">
+<div class="container text-center" style="border:3px solid #fd7e14;">
 <!--<h4><%= locals.user ? user:"User" %></h4>-->
 
 <table style="width:100%" class="table">
 
 
 <thead>
+
+
+
 <tr>
     <th scope="col" >Account Name</th>
     <th scope="col">Email</th>
@@ -22,15 +25,89 @@
   <div>
   <button onclick="window.print()" class="btn" style="color:#fd7e14">Print</button>
   </div>
+  <div id="today"></div>
+
+<div class="d-flex_p-2 flex sidenav h-50">
+  <div class="btn-group dropright">
+    <button
+      class="btn btn-success dropdown-toggle"
+      onclick="myWithdraw()"
+      style="margin-top: 3vh"
+      id="dropdownMenuButton"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      Withdraw
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+      <button class="dropdown-item" type="button">Account restricted</button>
+      <button class="dropdown-item" type="button">
+        Please Contact Customer Care
+      </button>
+      <button class="dropdown-item" type="button">
+        helpdesk@firstnationaagric.com
+      </button>
+    </div>
+  </div>
+  <div class="btn-group dropright">
+    <button
+      class="btn btn-info dropdown-toggle"
+      onclick="myTransfer()"
+      style="margin-top: 3vh"
+      id="dropdownMenuButton"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      Transfer
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+      <button class="dropdown-item" type="button">Account restricted</button>
+      <button class="dropdown-item" type="button">
+        Please Contact Customer Care
+      </button>
+      <button class="dropdown-item" type="button">
+        helpdesk@firstnationaagric.com
+      </button>
+    </div>
+  </div>
+  <div class="btn-group dropright">
+    <button
+      class="btn btn-danger dropdown-toggle"
+      onclick="mySettings()"
+      style="margin-top: 3vh"
+      id="dropdownMenuButton"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      Settings
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+      <button class="dropdown-item" type="button">Account restricted</button>
+      <button class="dropdown-item" type="button">
+        Please Contact Customer Care
+      </button>
+      <button class="dropdown-item" type="button">
+        helpdesk@firstnationaagric.com
+      </button>
+    </div>
+  </div>
+</div>
 
 
-<div class="sidenav">
-  <a href="#withdraw">Withdraw</a>
-  <a href="#Transfer">Transfer</a>
-  <a href="#Others">Others</a>
-  
-  <a href="#Profile">Profile</a>
-  <a href="#Settings">Settings</a>
+
+  <div class="col-9">
+    <div class="tab-content" id="v-pills-tabContent">
+      <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">...</div>
+      <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
+      <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+      <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+    </div>
+  </div>
+</div>
+
 </div>
 
 
@@ -38,9 +115,12 @@
 
 
   <tbody>
+
+
+
 <tr>
   
-    <td> <%= firstname %> <%= lastname %> ,<%= middlename %></td>
+    <td> <%= firstname %>    <%= lastname %> ,<%= middlename %></td>
     
   
     <td><%= email %> </td>
@@ -62,6 +142,8 @@
     
   </tr>
 
+          
+           
 
 
 </tbody>
@@ -75,25 +157,85 @@
 
 </div>
 <div class="container">
+
+
+ 
+ 
+
 <table class="table table-striped">
   <thead>
   <h2 class="container table table-striped text-center">Transaction History</h2>
     
   </thead>
-  
+ 
   <tbody>
   
 
     <div class="text-center">
     <br>
-    <iframe id="iframe1" name="iframe1" src="/transactionsummary" class="container" style="background-color: Snow;"></iframe>
+   
+   
+
+
+
+    <div class="container">
+<table class="table table-striped">
+  <thead>
+  <h2 class="container table table-striped text-center"></h2>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Type</th>
+      <th scope="col">From/To</th>
+      <th scope="col">Description</th>
+      <th scope="col">Balance</th>
+      <th scope="col">Date</th>
+    </tr>
+  </thead>
+  
+  
+<tbody>
+    
+    <% if(item.length > 0){       item.forEach(function(result){                 %> 
+    
+     <tr>
+      <th scope="row"><%= result.id %></th>
+      <td><%= result.amount %></td>
+      <td><%= result.type %></td>
+      <td><%= result.from_to %></td>
+      <td><%= result.description %></td>
+      <td id="balance"><%= result.balance %></td>
+      <td><%= result.tdate %></td>
+    </tr>
+      
+       <% 
+          }) ;
+          } %>    
+          
+
+  </tbody>
+ 
+</table>
+
+
+</div>  
+
+    
+    
+    </div>
     
 
     </div>
 
    <div class="text-center">
     <br>
-    <iframe id="iframe2" name="iframe2" src="/total" class="text-center" style="background-color: Snow;" scrolling="no"></iframe>
+    <div id="iframe2" name="iframe2" class="text-center" style="background-color: Snow;" scrolling="no">
+
+    
+    <div class="container text-center"><div>Total Balance : <p id="total"></p></div>
+
+
+ </div>
     
 
     </div>
@@ -103,5 +245,6 @@
   </tbody>
 </table></div>  
 <div><a href="/logout">Logout</a></div>
+
 
 <%- include('footer'); -%>

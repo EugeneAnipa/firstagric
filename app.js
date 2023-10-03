@@ -64,9 +64,7 @@ app.get("/", function (request, respond) {
   respond.render("index");
 });
 
-app.post("/", function (request, respond) {
-  //respond.render("index");
-});
+app.post("/", function (request, respond) {});
 
 app.get("/login", function (request, respond) {
   respond.render("login");
@@ -81,20 +79,15 @@ app.post("/login", function (request, respond) {
   Ee.push(Email);
   Pp.push(Password);
 
-  //var sess = request.session;
-
   var sql1 =
     "SELECT * FROM customers,transactions WHERE email = ? AND password = ? ";
 
   firstagricdb.query(sql1, [Email, Password], function (err, result) {
-    if (err) throw err;
+    // if (err) throw err;
 
     if (result.length <= 0) {
-      // respond.end("Invalid details");
-
       respond.redirect("/login");
     } else {
-      // sess.Email = Email;
       respond.redirect("/transaction");
     }
   });
@@ -105,9 +98,10 @@ app.get("/transaction", function (request, respond) {
   let Password = Pp[0];
 
   firstagricdb.connect(function (err) {
-    var sql = "SELECT * FROM Customers";
+    var sql =
+      "SELECT firstname,middlename,lastname,email,country,state,address,zipcode,phone,dob,accountnumber FROM customers WHERE email = ? AND password = ?";
     var result1 =
-      "SELECT firstname,middlename,lastname,email,country,state,address,zipcode,phone,dob,accountnumber FROM customers ORDER BY id DESC LIMIT 1";
+      "SELECT customers.firstname AS firstname,customers.middlename AS middlename,customers.lastname AS lastname,customers.email AS email,customers.country AS country,customers.state AS state,customers.address AS address,customers.zipcode AS zipcode,customers.phone AS phone,customers.dob AS dob,customers.accountnumber AS accountnumber,transactions.id AS id,transactions.amount AS amount,transactions.type AS type,transactions.from_to AS from_to,transactions.description AS description,transactions.balance AS balance,transactions.tdate AS tdate FROM customers INNER JOIN transactions ON customers.accountnumber=transactions.accountnumber WHERE email = ? AND password = ?";
 
     var sql2 =
       "SELECT customers.firstname,customers.middlename,customers.lastname,customers.email,customers.password,customers.country,customers.state,customers.address,customers.zipcode,customers.phone,customers.dob,customers.accountnumber,transactions.id,transactions.amount,transactions.type,transactions.from_to,transactions.description,transactions.balance,transactions.tdate FROM customers INNER JOIN transactions ON customers.accountnumber=transactions.accountnumber WHERE email = ? AND password = ? ";
@@ -116,59 +110,39 @@ app.get("/transaction", function (request, respond) {
       if (err) throw err;
       console.log(result);
 
-      //if (request.session.Email) {
-      Object.keys(result).forEach(function (key) {
-        var row = result[key];
-        //console.log(row.firstname, row.type, row.amount, row.id);
+      firstagricdb.query(sql, [Email, Password], function (err, result2) {
+        if (err) throw err;
+        console.log(result2);
 
-        respond.render("transaction", {
-          //user: request.Email,
-          firstname: row.firstname,
+        //if (request.session.Email) {
 
-          middlename: row.middlename,
-          lastname: row.lastname,
-          email: row.email,
-          country: row.country,
-          state: row.state,
-          address: row.address,
-          zipcode: row.zipcode,
-          phone: row.phone,
-          dob: row.dob,
-          accountnumber: row.accountnumber,
+        Object.keys(result2).forEach(function (key) {
+          var row = result2[key];
+          console.log(row.firstname);
+
+          respond.render("transaction", {
+            item: result,
+            firstname: row.firstname,
+            middlename: row.middlename,
+            lastname: row.lastname,
+            email: row.email,
+            country: row.country,
+            state: row.state,
+            address: row.address,
+            zipcode: row.zipcode,
+            phone: row.phone,
+            dob: row.dob,
+            accountnumber: row.accountnumber,
+          });
         });
       });
-      // }
-      //  else {
-      respond.render("login");
-      // }
 
-      /*
-      Object.keys(result).forEach(function (key) {
-        var row = result[key];
-        //console.log(row.firstname, row.type, row.amount, row.id);
-
-        respond.render("transaction", {
-          firstname: row.firstname,
-
-          middlename: row.middlename,
-          lastname: row.lastname,
-          email: row.email,
-          country: row.country,
-          state: row.state,
-          address: row.address,
-          zipcode: row.zipcode,
-          phone: row.phone,
-          dob: row.dob,
-          accountnumber: row.accountnumber,
-        });
-      });       */
+      //respond.render("transaction", { item: result });
     });
   });
 });
 
-app.post("/transaction", function (request, respond) {
-  //respond.redirect("/transaction");
-});
+app.post("/transaction", function (request, respond) {});
 
 app.get("/signup", function (request, respond) {
   respond.render("signup");
@@ -211,59 +185,20 @@ app.post("/signup", function (request, respond) {
         accountNumber,
       ],
       function (err, result) {
-        //if (err) throw err;
         console.log("1 record inserted");
       }
     );
   });
   respond.render("thankyou");
-  //redirect to homepage after saying thank you respond.redirect("/index")
-  //respond.redirect("/signup");
-  //request.flash("thank you");
 });
-/* back  */
 
-app.get("/transactionsummary", function (resquest, respond, next) {
-  let Email = Ee[0];
-  let Password = Pp[0];
-
-  var sql2 =
-    "SELECT customers.firstname,customers.middlename,customers.lastname,customers.email,customers.password,customers.country,customers.state,customers.address,customers.zipcode,customers.phone,customers.dob,customers.accountnumber,transactions.id,transactions.amount,transactions.type,transactions.from_to,transactions.description,transactions.balance,transactions.tdate FROM customers INNER JOIN transactions ON customers.accountnumber=transactions.accountnumber WHERE email = ? AND password = ? ";
-
-  var sql3 =
-    "SELECT customers.email,customers.password,transactions.id AS id ,transactions.amount AS amount,transactions.type AS type,transactions.from_to AS from_to,transactions.description AS description,transactions.balance AS balance,transactions.tdate AS tdate FROM customers INNER JOIN transactions ON customers.accountnumber=transactions.accountnumber WHERE email = ? AND password = ? ";
-
-  firstagricdb.query(sql3, [Email, Password], function (err, result) {
-    if (err) {
-      throw err;
-    } else {
-      respond.render("transactionsummary", { item: result });
-    }
-  });
-});
-app.get("/total", function (request, respond) {
-  let Email = Ee[0];
-
-  firstagricdb.connect(function (err) {
-    var sql =
-      "SELECT sum(transactions.balance) AS Totalbalance FROM customers INNER JOIN transactions ON customers.accountnumber=transactions.accountnumber WHERE customers.email = ? ";
-
-    firstagricdb.query(sql, [Email], function (err, result) {
-      Object.keys(result).forEach(function (key) {
-        var row = result[key];
-        console.log(row.Totalbalance);
-
-        respond.render("total", { totalBalance: row.Totalbalance });
-      });
-    });
-  });
-});
 app.get("/logout", function (request, respond) {
-  //request.session.destroy(function () {
   console.log("user logged out");
-  //});
+
   respond.redirect("/login");
 });
+
+/*
 
 app.get("/forgotpassword", function (request, respond) {
   respond.render("forgotpassword");
@@ -272,6 +207,33 @@ app.get("/forgotpassword", function (request, respond) {
 app.post("/forgotpassword", function (request, respond) {
   respond.redirect("/forgotpassword");
 });
+
+app.get("/transaction/settings", function (request, respond) {
+  respond.render("settings");
+});
+
+app.post("/transaction/settings", function (request, respond) {
+  respond.redirect("settings");
+});
+
+app.get("/transaction/transfer", function (request, respond) {
+  respond.render("transfer");
+});
+
+app.post("/transaction/transfer", function (request, respond) {
+  respond.redirect("transfer");
+});
+
+app.get("/transaction/withdraw", function (request, respond) {
+  respond.render("withdraw");
+});
+
+app.post("/transaction/withdraw", function (request, respond) {
+  respond.redirect("/withdraw");
+});
+
+
+*/
 
 app.listen(process.env.PORT || 3000, function () {
   console.log("server started on port");
