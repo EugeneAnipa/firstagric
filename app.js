@@ -43,15 +43,14 @@ app.use(
 
 var md5 = require("md5");
 
-/*
 var firstagricdb = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
   database: "firstagricdb",
 });
-*/
 
+/*
 var firstagricdb = mysql.createConnection({
   host: "mysql-sssss-23635.nodechef.com",
   user: "ncuser_7052",
@@ -59,6 +58,7 @@ var firstagricdb = mysql.createConnection({
   database: "sssss",
   port: 2394,
 });
+*/
 
 app.get("/", function (request, respond) {
   respond.render("index");
@@ -100,6 +100,7 @@ app.get("/transaction", function (request, respond) {
   firstagricdb.connect(function (err) {
     var sql =
       "SELECT firstname,middlename,lastname,email,country,state,address,zipcode,phone,dob,accountnumber FROM customers WHERE email = ? AND password = ?";
+
     var result1 =
       "SELECT customers.firstname AS firstname,customers.middlename AS middlename,customers.lastname AS lastname,customers.email AS email,customers.country AS country,customers.state AS state,customers.address AS address,customers.zipcode AS zipcode,customers.phone AS phone,customers.dob AS dob,customers.accountnumber AS accountnumber,transactions.id AS id,transactions.amount AS amount,transactions.type AS type,transactions.from_to AS from_to,transactions.description AS description,transactions.balance AS balance,transactions.tdate AS tdate FROM customers INNER JOIN transactions ON customers.accountnumber=transactions.accountnumber WHERE email = ? AND password = ?";
 
@@ -112,7 +113,8 @@ app.get("/transaction", function (request, respond) {
 
       firstagricdb.query(sql, [Email, Password], function (err, result2) {
         if (err) throw err;
-        console.log(result2);
+        console.log(JSON.stringify(result2));
+        console.log(JSON.stringify(result2.firstname));
 
         //if (request.session.Email) {
 

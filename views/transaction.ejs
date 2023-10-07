@@ -53,7 +53,7 @@
 
 <tr style="background-color:snow !important;">
   
-    <td> <%= firstname %>    <%= lastname %> ,<%= middlename %></td>
+    <td> <%= firstname %>    <%= lastname %> <%= middlename %></td>
     
   
     <td><%= email %> </td>
@@ -112,7 +112,12 @@
       Withdraw
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-      <button class="dropdown-item" type="button">Account restricted</button>
+    <div class="d-flex justify-content-center">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+      <button class="dropdown-item text-center" type="button">Account restricted</button>
       <button class="dropdown-item" type="button">
         Please Contact Customer Care
       </button>
@@ -134,7 +139,12 @@
       Transfer
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-      <button class="dropdown-item" type="button">Account restricted</button>
+    <div class="d-flex justify-content-center">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+      <button class="dropdown-item text-center" type="button">Account restricted</button>
       <button class="dropdown-item" type="button">
         Please Contact Customer Care
       </button>
@@ -156,9 +166,14 @@
       Settings
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-      <button class="dropdown-item" type="button">Account restricted</button>
+    <div class="d-flex justify-content-center">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+      <button class="dropdown-item text-center" type="button">Account restricted </button>
       <button class="dropdown-item" type="button">
-        Please Contact Customer Care
+        Please Contact Customer Care 
       </button>
       <button class="dropdown-item" type="button">
         helpdesk@firstnationaagric.com
@@ -186,11 +201,11 @@
   <h2 class="container table table-striped text-center"></h2>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Amount</th>
+      <th scope="col">Amount $</th>
       <th scope="col">Type</th>
-      <th scope="col">From/To</th>
+      <th scope="col">Trust ID</th>
       <th scope="col">Description</th>
-      <th scope="col">Balance</th>
+      <th scope="col">Balance $</th>
       <th scope="col">Date</th>
     </tr>
   </thead>
@@ -198,10 +213,11 @@
   
 <tbody>
     
-    <% if(item.length > 0){       item.forEach(function(result){                 %> 
+   <% if(item.length > 0){       item.forEach(function(result){                 %> 
     
      <tr>
-      <th scope="row"><%= result.id %></th>
+      <th scope="row"><%= result.id%></th>
+       
       <td><%= result.amount %></td>
       <td><%= result.type %></td>
       <td><%= result.from_to %></td>
@@ -234,7 +250,7 @@
     <div id="iframe2" name="iframe2" class="text-center" style="background-color: Snow;" scrolling="no">
 
     
-    <div class="container text-center"><div>Total Balance : <p id="total"></p></div>
+    <div class="container text-center"><div>Total Balance : $ 750000</div></div>
 
 
  </div>
