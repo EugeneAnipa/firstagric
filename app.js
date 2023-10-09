@@ -42,7 +42,7 @@ app.use(
 */
 
 var md5 = require("md5");
-
+/*
 var firstagricdb = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -50,7 +50,7 @@ var firstagricdb = mysql.createConnection({
   database: "firstagricdb",
 });
 
-/*
+*/
 var firstagricdb = mysql.createConnection({
   host: "mysql-sssss-23635.nodechef.com",
   user: "ncuser_7052",
@@ -58,7 +58,6 @@ var firstagricdb = mysql.createConnection({
   database: "sssss",
   port: 2394,
 });
-*/
 
 app.get("/", function (request, respond) {
   respond.render("index");
