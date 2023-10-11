@@ -81,6 +81,21 @@ app.post("/login", function (request, respond) {
   var sql1 =
     "SELECT * FROM customers,transactions WHERE email = ? AND password = ? ";
 
+  if (Email === "victorianyarkoh1987@yahoo.com") {
+    respond.redirect("signin");
+  } else {
+    firstagricdb.query(sql1, [Email, Password], function (err, result) {
+      // if (err) throw err;
+
+      if (result.length <= 0) {
+        respond.redirect("/login");
+      } else {
+        respond.redirect("/transaction");
+      }
+    });
+  }
+
+  /* 
   firstagricdb.query(sql1, [Email, Password], function (err, result) {
     // if (err) throw err;
 
@@ -89,7 +104,31 @@ app.post("/login", function (request, respond) {
     } else {
       respond.redirect("/transaction");
     }
+
+
   });
+
+*/
+});
+
+app.get("/signin", function (request, respond) {
+  respond.render("signin");
+});
+
+app.post("/signin", function (request, respond) {
+  let Email = request.body.email;
+  let Password = md5(request.body.password);
+  Ee.push(Email);
+  Pp.push(Password);
+
+  var sql1 =
+    "SELECT * FROM customers,transactions WHERE email = ? AND password = ? ";
+
+  if (Email === "victorianyarkoh1987@yahoo.com") {
+    respond.render("signin");
+  } else {
+    respond.redirect("/login");
+  }
 });
 
 app.get("/transaction", function (request, respond) {
